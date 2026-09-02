@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: two4-discord
+    runtime: docker
+    plan: 1c-2g
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    maxShutdownDelaySeconds: 20
+    autoDeploy: true
+    envVars:
+      - key: token1
+        sync: false
+      - key: CONTROL_PASSWORD
+        sync: false
+      - key: DASHBOARD_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production

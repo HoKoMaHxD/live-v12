@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>لوحة تحكم الشير</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/dashboard.css?v=3.4.0">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <img class="brand-logo brand-logo-small" src="/assets/logo.svg" alt="">
+            <div>
+                <p class="eyebrow">Discord Go Live</p>
+                <h1>تحكم الرومات</h1>
+            </div>
+        </div>
+        <div class="topbar-actions">
+            <span class="sync-state" id="sync-state"><i></i> متصل باللوحة</span>
+            <button class="button button-ghost" id="logout-button" type="button">تسجيل الخروج</button>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <section class="summary" aria-label="ملخص البث">
+            <div>
+                <span>الرومات المتصلة</span>
+                <strong id="configured-count">—</strong>
+            </div>
+            <div>
+                <span>الشيرات الفعالة</span>
+                <strong id="active-count">—</strong>
+            </div>
+            <p>أدخل أيدي السيرفر والروم لكل بطاقة ثم اضغط دخول. كل مقطع يعاد تلقائيًا حتى توقف الشير أو تخرج من الروم.</p>
+        </section>
+
+        <nav class="room-shortcuts" aria-label="الانتقال بين السيرفرات الأربعة">
+            <strong>4 سيرفرات مستقلة</strong>
+            <a href="#room-1">الروم 1</a>
+            <a href="#room-2">الروم 2</a>
+            <a href="#room-3">الروم 3</a>
+            <a href="#room-4">الروم 4</a>
+        </nav>
+
+        <section class="room-grid" id="room-grid" aria-live="polite"></section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <template id="room-template">
+        <article class="room-card">
+            <header class="room-header">
+                <div>
+                    <p class="room-index"></p>
+                    <h2 class="room-name"></h2>
+                </div>
+                <div class="badges">
+                    <span class="badge voice-badge"></span>
+                    <span class="badge stream-badge"></span>
+                </div>
+            </header>
+
+            <form class="voice-form">
+                <div class="voice-fields">
+                    <label>
+                        <span class="field-label">أيدي السيرفر</span>
+                        <input class="text-input server-id-input" type="text" inputmode="numeric"
+                            pattern="[0-9]{17,20}" maxlength="20" autocomplete="off"
+                            placeholder="Server ID" required>
+                    </label>
+                    <label>
+                        <span class="field-label">أيدي الروم الصوتي</span>
+                        <input class="text-input channel-id-input" type="text" inputmode="numeric"
+                            pattern="[0-9]{17,20}" maxlength="20" autocomplete="off"
+                            placeholder="Voice Channel ID" required>
+                    </label>
+                </div>
+                <div class="voice-actions">
+                    <button class="button button-primary join-button" type="submit">دخول الروم</button>
+                    <button class="button button-ghost leave-button" type="button">خروج من الروم</button>
+                    <button class="button button-toggle mute-button" type="button" aria-pressed="false"
+                        title="ميوت أو فك ميوت الحساب داخل هذا الروم">ميوت</button>
+                    <button class="button button-toggle deaf-button" type="button" aria-pressed="false"
+                        title="دفن أو فك دفن الحساب داخل هذا الروم">دفن</button>
+                </div>
+            </form>
+
+            <form class="stream-form">
+                <div class="stream-settings">
+                    <label>
+                        <span class="field-label">جودة البث</span>
+                        <select class="quality-input">
+                            <option value="144">144p — أقل استهلاك</option>
+                            <option value="240">240p — خفيفة جدًا</option>
+                            <option value="360">360p — خفيفة</option>
+                            <option value="480" selected>480p — متوازنة</option>
+                            <option value="720">720p HD</option>
+                            <option value="1080">1080p Full HD</option>
+                            <option value="1440">1440p 2K</option>
+                            <option value="2160">2160p 4K</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span class="field-label">الإطارات FPS</span>
+                        <select class="fps-input">
+                            <option value="15">15 FPS</option>
+                            <option value="24" selected>24 FPS</option>
+                            <option value="30">30 FPS</option>
+                            <option value="60">60 FPS</option>
+                        </select>
+                    </label>
+                    <small>مستقل لكل روم. 1080p فما فوق و60 FPS تحتاج Nitro وموارد استضافة قوية.</small>
+                </div>
+                <label class="field-label">رابط YouTube أو رابط MP4 / GIF / PNG مباشر</label>
+                <div class="url-row">
+                    <input class="url-input" type="url" inputmode="url" required
+                        autocomplete="off" placeholder="YouTube أو video.mp4 أو animation.gif أو image.png">
+                    <button class="button button-primary start-button" type="submit">تشغيل الشير</button>
+                </div>
+            </form>
+
+            <div class="playback-controls" aria-label="التحكم بالمقطع">
+                <button class="button button-ghost rewind-button" type="button">−15 ثانية</button>
+                <button class="button button-toggle pause-button" type="button">إيقاف مؤقت</button>
+                <button class="button button-ghost forward-button" type="button">+15 ثانية</button>
+            </div>
+
+            <div class="control-row">
+                <button class="button button-danger stop-button" type="button">إيقاف الشير</button>
+                <label class="volume-control">
+                    <span>الصوت <output class="volume-value">100%</output></span>
+                    <input class="volume-input" type="range" min="0" max="200" step="5" value="100">
+                </label>
+            </div>
+
+            <div class="now-playing">
+                <span>المقطع الحالي</span>
+                <strong class="media-title">لا يوجد بث حالي</strong>
+                <small class="started-at"></small>
+                <small class="position-status"></small>
+                <small class="encoding-status"></small>
+                <small class="loop-status">التكرار التلقائي مفعّل</small>
+            </div>
+            <p class="room-error" role="alert" hidden></p>
+        </article>
+    </template>
+
+    <script src="/assets/dashboard.js?v=3.4.0" defer></script>
+</body>
+</html>

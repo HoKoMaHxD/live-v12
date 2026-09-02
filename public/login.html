@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>دخول لوحة الشير</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/dashboard.css?v=3.4.0">
+</head>
+<body class="login-page">
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="login-title">
+            <img class="brand-logo" src="/assets/logo.svg" alt="">
+            <p class="eyebrow">Discord Go Live</p>
+            <h1 id="login-title">لوحة تحكم الشير</h1>
+            <p class="muted">أدخل كلمة المرور المحفوظة في <bdi>CONTROL_PASSWORD</bdi>.</p>
+            <p class="login-error" id="login-error" role="alert" hidden></p>
+            <form action="/login" method="post" class="login-form">
+                <label for="password">كلمة المرور</label>
+                <input id="password" name="password" type="password" required autofocus
+                    autocomplete="current-password" maxlength="256" placeholder="••••••••">
+                <button class="button button-primary" type="submit">دخول آمن</button>
+            </form>
+        </section>
+    </main>
+    <script src="/assets/login.js?v=3.4.0" defer></script>
+</body>
+</html>
